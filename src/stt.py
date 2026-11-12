@@ -70,7 +70,6 @@ class STT:
 
         self.start_listening()
         
-        print("Listening...")
         audio_buffer = []
         silence_frames = 0
         min_frames = int(min_length * self.sample_rate / config.audio.chunk_size)
@@ -86,7 +85,6 @@ class STT:
                     result = json.loads(self._rec.Result())
                     text = result.get("text", "").strip()
                     if text:
-                        print(f"Recognized: {text}")
                         return text
                     # If we got a result but no text, continue listening
                 
@@ -104,7 +102,6 @@ class STT:
                         final = json.loads(self._rec.FinalResult())
                         text = final.get("text", "").strip()
                         if text:
-                            print(f"Recognized (final): {text}")
                             return text
                         # If we have enough audio but no speech, reset
                         if len(audio_buffer) >= min_frames:
