@@ -1,0 +1,38 @@
+# Voice Bot Configuration
+
+audio:
+  sample_rate: 16000
+  channels: 1
+  chunk_size: 1024
+  input_device: null  # null = default
+  output_device: null # null = default
+
+stt:
+  model_path: "models/vosk-model-small-en-us-0.15"
+  # Alternative models (download and update path):
+  # models/vosk-model-en-us-0.22-lgraph (larger, more accurate)
+  # models/vosk-model-small-en-us-0.15 (smaller, faster)
+
+llm:
+  provider: "ollama"
+  model: "lfm3:latest"
+  host: "http://localhost:11434"
+  temperature: 0.7
+  max_tokens: 200
+  system_prompt: |
+    You are a helpful voice assistant. Keep responses concise and natural for speech.
+    Avoid markdown formatting. Use short sentences.
+
+tts:
+  model_path: "models/en_US-lessac-medium.onnx"
+  # Alternative voices (download from Piper):
+  # en_US-amy-medium.onnx, en_US-joe-medium.onnx, etc.
+  speaker_id: 0
+  length_scale: 1.0
+  noise_scale: 0.667
+  noise_w_scale: 0.8
+
+conversation:
+  wake_word: null  # Set to "hey bot" or similar for wake word detection
+  silence_timeout: 2.0  # seconds of silence before processing
+  min_audio_length: 0.5  # minimum seconds of audio to process
