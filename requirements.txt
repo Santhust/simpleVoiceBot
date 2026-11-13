@@ -10,6 +10,10 @@ numpy==1.26.4
 # LLM via Ollama
 ollama==0.4.2
 
+# Web search (tools)
+requests==2.32.3
+beautifulsoup4==4.12.3
+
 # TTS
 piper-tts==1.8.0
 onnxruntime==1.20.0

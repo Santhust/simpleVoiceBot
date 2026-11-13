@@ -4,6 +4,7 @@ A fully offline voice assistant running on Raspberry Pi 5 (ARM64) with:
 - **STT**: Vosk (streaming speech recognition)
 - **LLM**: Ollama (lfm3, qwen2.5, gemma3, etc.)
 - **TTS**: Piper (natural neural TTS)
+- **Tools**: Web search (DuckDuckGo) & page fetching for current information
 
 ## Requirements
 
@@ -77,10 +78,28 @@ python main.py
 Speak into your microphone. The bot will:
 1. Listen until you stop speaking (2s silence timeout)
 2. Transcribe with Vosk
-3. Generate response with Ollama LLM
+3. Generate response with Ollama LLM (web search is auto-triggered for questions about weather, news, prices, etc. — see [Web Search](#web-search))
 4. Speak response with Piper TTS
 
 Say "exit", "quit", or "goodbye" to stop.
+
+## Web Search
+
+The bot includes web search tools (`src/tools.py`) that let the LLM answer questions about current events using live web data. Two tools are provided:
+
+- **`web_search`** — searches DuckDuckGo and returns top results (title, URL, snippet)
+- **`fetch_page`** — fetches a specific URL and extracts readable text
+
+Search is **enabled by default**. It triggers automatically when your query contains keywords suggesting live information is needed (e.g., "weather", "news", "price", "search for"). Search results are injected into the LLM context so it can answer with up-to-date facts.
+
+You can disable it by instantiating the LLM with `enable_search=False`:
+
+```python
+from src.llm import LLM
+llm = LLM(enable_search=False)  # No web search, purely offline responses
+```
+
+> Note: web search requires an internet connection. Everything else (STT, LLM, TTS) remains fully offline.
 
 ## Project Structure
 
@@ -98,7 +117,8 @@ simpleVoiceBot/
 │   ├── __init__.py
 │   ├── config.py        # Configuration management
 │   ├── stt.py           # Vosk speech-to-text
-│   ├── llm.py           # Ollama LLM client
+│   ├── llm.py           # Ollama LLM client with intent-based search
+│   ├── tools.py         # Web search (DuckDuckGo) & page fetching tools
 │   ├── tts.py           # Piper text-to-speech
 │   └── bot.py           # Main conversation loop
 └── venv/                # Virtual environment (gitignored)
