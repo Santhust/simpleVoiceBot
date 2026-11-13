@@ -154,4 +154,4 @@ Total end-to-end: **4-12 seconds** with lfm3, **2-5 seconds** with gemma3:1b.
 
 ## License
 
-MIT
+GPL-3.0-or-later — see [LICENSE](LICENSE) for details.
